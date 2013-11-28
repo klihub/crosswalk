@@ -25,6 +25,7 @@
 #include "xwalk/runtime/browser/runtime_registry.h"
 #include "xwalk/runtime/common/xwalk_switches.h"
 #include "xwalk/runtime/extension/runtime_extension.h"
+#include "xwalk/sysapps/device_capabilities_new/device_capabilities_extension.h"
 #include "xwalk/sysapps/raw_socket/raw_socket_extension.h"
 #include "cc/base/switches.h"
 #include "content/public/common/content_switches.h"
@@ -239,6 +240,13 @@ void XWalkBrowserMainParts::RegisterInternalExtensionsInUIThreadServer(
           runtime_context_->GetApplicationSystem())));
   server->RegisterExtension(scoped_ptr<XWalkExtension>(
       new ApplicationEventExtension(runtime_context_->GetApplicationSystem())));
+
+  // FIXME(tmpsantos): Device Capabilities needs to be on the UI Thread because
+  // it uses Chromium's StorageMonitor, which requires that. We can move it back
+  // to the ExtensionThread if we make StorageMonitor a truly self-contained
+  // module on Chromium upstream.
+  server->RegisterExtension(scoped_ptr<XWalkExtension>(
+      new sysapps::DeviceCapabilitiesExtension()));
 }
 
 }  // namespace xwalk
