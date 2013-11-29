@@ -23,7 +23,34 @@ DeviceCapabilitiesObject::DeviceCapabilitiesObject() {
                                base::Unretained(this)));
 }
 
-DeviceCapabilitiesObject::~DeviceCapabilitiesObject() {}
+DeviceCapabilitiesObject::~DeviceCapabilitiesObject() {
+  if (StorageInfoProvider::GetInstance()->HasObserver(this))
+    StorageInfoProvider::GetInstance()->RemoveObserver(this);
+}
+
+void DeviceCapabilitiesObject::StartEvent(const std::string& type) {
+  if (!StorageInfoProvider::GetInstance()->HasObserver(this))
+    StorageInfoProvider::GetInstance()->AddObserver(this);
+}
+
+void DeviceCapabilitiesObject::StopEvent(const std::string& type) {
+  if (!IsEventActive("storageattach") && !IsEventActive("storagedetach"))
+    StorageInfoProvider::GetInstance()->RemoveObserver(this);
+}
+
+void DeviceCapabilitiesObject::OnStorageAttached(const StorageUnit& storage) {
+  scoped_ptr<base::ListValue> eventData(new base::ListValue);
+  eventData->Append(storage.ToValue().release());
+
+  DispatchEvent("storageattach", eventData.Pass());
+}
+
+void DeviceCapabilitiesObject::OnStorageDetached(const StorageUnit& storage) {
+  scoped_ptr<base::ListValue> eventData(new base::ListValue);
+  eventData->Append(storage.ToValue().release());
+
+  DispatchEvent("storagedetach", eventData.Pass());
+}
 
 void DeviceCapabilitiesObject::OnGetCPUInfo(
     scoped_ptr<XWalkExtensionFunctionInfo> info) {
