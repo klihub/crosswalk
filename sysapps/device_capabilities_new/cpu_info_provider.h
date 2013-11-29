@@ -28,6 +28,8 @@ class CPUInfoProvider {
  private:
   CPUInfoProvider();
 
+  double GetCPULoad() const;
+
   int number_of_processors_;
   std::string processor_architecture_;
 
