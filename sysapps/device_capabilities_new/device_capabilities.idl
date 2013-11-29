@@ -29,9 +29,11 @@ namespace device_capabilities {
   };
 
   callback SystemCPUPromise = void (SystemCPU info, DOMString error);
+  callback SystemStoragePromise = void (SystemStorage info, DOMString error);
 
   interface Functions {
     static void getCPUInfo(SystemCPUPromise promise);
+    static void getStorageInfo(SystemStoragePromise promise);
 
     [nodoc] static DeviceCapabilities deviceCapabilitiesConstructor(DOMString objectId);
   };

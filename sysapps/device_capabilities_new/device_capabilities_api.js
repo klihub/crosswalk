@@ -20,6 +20,7 @@ var DeviceCapabilities = function() {
   internal.postMessage("deviceCapabilitiesConstructor", [this._id]);
 
   this._addMethodWithPromise("getCPUInfo", new Promise());
+  this._addMethodWithPromise("getStorageInfo", new Promise());
 };
 
 DeviceCapabilities.prototype = new common.BindingObjectPrototype();
