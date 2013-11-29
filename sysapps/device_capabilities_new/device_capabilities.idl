@@ -10,6 +10,24 @@ namespace device_capabilities {
     double load;
   };
 
+  enum StorageUnitType {
+    fixed,
+    removable,
+    unknown
+  };
+
+  dictionary StorageUnit {
+    DOMString id;
+    DOMString name;
+    DOMString type;
+    // If we use long here, it will overflow.
+    double capacity;
+  };
+
+  dictionary SystemStorage {
+    StorageUnit[] storages;
+  };
+
   callback SystemCPUPromise = void (SystemCPU info, DOMString error);
 
   interface Functions {
