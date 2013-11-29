@@ -6,9 +6,10 @@
 #define XWALK_SYSAPPS_DEVICE_CAPABILITIES_NEW_DEVICE_CAPABILITIES_EXTENSION_H_
 
 #include <string>
+
 #include "base/values.h"
-#include "xwalk/extensions/common/xwalk_extension.h"
 #include "xwalk/extensions/browser/xwalk_extension_function_handler.h"
+#include "xwalk/extensions/common/xwalk_extension.h"
 #include "xwalk/sysapps/common/binding_object_store.h"
 
 namespace xwalk {
@@ -16,6 +17,7 @@ namespace sysapps {
 
 using extensions::XWalkExtension;
 using extensions::XWalkExtensionFunctionHandler;
+using extensions::XWalkExtensionFunctionInfo;
 using extensions::XWalkExtensionInstance;
 
 class DeviceCapabilitiesExtension : public XWalkExtension {
