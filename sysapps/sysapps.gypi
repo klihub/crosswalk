@@ -6,6 +6,8 @@
     'common/common.idl',
     'common/event_target.cc',
     'common/event_target.h',
+    'device_capabilities_new/cpu_info_provider.cc',
+    'device_capabilities_new/cpu_info_provider.h',
     'device_capabilities_new/device_capabilities.idl',
     'device_capabilities_new/device_capabilities_api.js',
     'device_capabilities_new/device_capabilities_extension.cc',
