@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>Device Capabilities test</p>
+    <div id="output"></div>
+    <script>
+      function log(message) {
+        document.getElementById("output").innerHTML =
+            document.getElementById("output").innerHTML + "<br/>" + message;
+      }
+
+      var api = xwalk.experimental.system;
+      api.getCPUInfo().then(
+        function(info) {
+          log("--- getCPUInfo ---");
+          log(info.numOfProcessors);
+          log(info.archName);
+          log(info.load);
+        },
+        function(error) {
+          log(error);
+        }
+      );
+
+      api.getDisplayInfo().then(
+        function(info) {
+          log("--- getDisplayInfo ---");
+          for (var i = 0; i < info.displays.length; ++i) {
+            log(info.displays[i].id);
+            log(info.displays[i].name);
+            log(info.displays[i].isPrimary);
+            log(info.displays[i].isInternal);
+            log(info.displays[i].dpiX);
+            log(info.displays[i].dpiY);
+            log(info.displays[i].width);
+            log(info.displays[i].height);
+            log(info.displays[i].availWidth);
+            log(info.displays[i].availHeight);
+          }
+        },
+        function(error) {
+          log(error);
+        }
+      );
+
+      api.ondisplayconnect = function(event) {
+        log("--- SystemDisplay on" + event.type + " ---");
+        log(event.data.id);
+        log(event.data.name);
+        log(event.data.isPrimary);
+        log(event.data.isInternal);
+        log(event.data.dpiX);
+        log(event.data.dpiY);
+        log(event.data.width);
+        log(event.data.height);
+        log(event.data.availWidth);
+        log(event.data.availHeight);
+      };
+
+      api.ondisplaydisconnect = function(event) {
+        log("--- SystemDisplay on" + event.type + " ---");
+        log(event.data.id);
+        log(event.data.name);
+        log(event.data.isPrimary);
+        log(event.data.isInternal);
+        log(event.data.dpiX);
+        log(event.data.dpiY);
+        log(event.data.width);
+        log(event.data.height);
+        log(event.data.availWidth);
+        log(event.data.availHeight);
+      };
+
+      api.getMemoryInfo().then(
+        function(info) {
+          log("--- getMemoryInfo ---");
+          log(info.capacity);
+          log(info.availCapacity);
+        },
+        function(error) {
+          log(error);
+        }
+      );
+
+      api.getStorageInfo().then(
+        function(info) {
+          log("--- getStorageInfo ---");
+          for (var i = 0; i < info.storages.length; ++i) {
+            log(info.storages[i].id);
+            log(info.storages[i].name);
+            log(info.storages[i].type);
+            log(info.storages[i].capacity);
+          }
+        },
+        function(error) {
+          log(error);
+        }
+      );
+
+      api.onstorageattach = function(event) {
+        log("--- SystemStorage on" + event.type + " ---");
+        log(event.data.id);
+        log(event.data.name);
+        log(event.data.type);
+        log(event.data.capacity);
+      };
+
+      api.onstoragedetach = function(event) {
+        log("--- SystemStorage on" + event.type + " ---");
+        log(event.data.id);
+        log(event.data.name);
+        log(event.data.type);
+        log(event.data.capacity);
+      };
+    </script>
+  </body>
+</html>
