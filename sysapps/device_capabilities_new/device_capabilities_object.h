@@ -28,6 +28,7 @@ class DeviceCapabilitiesObject : public EventTarget,
 
  private:
   void OnGetCPUInfo(scoped_ptr<XWalkExtensionFunctionInfo> info);
+  void OnGetMemoryInfo(scoped_ptr<XWalkExtensionFunctionInfo> info);
   void OnGetStorageInfo(scoped_ptr<XWalkExtensionFunctionInfo> info);
 };
 
