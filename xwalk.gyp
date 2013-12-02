@@ -165,9 +165,6 @@
             'sysapps/sysapps_resources.gyp:xwalk_sysapps_resources',
             'tizen/xwalk_tizen.gypi:xwalk_tizen_lib',
           ],
-          'includes': [
-            'sysapps/device_capabilities/device_capabilities.gypi',
-          ],
           'sources': [
             'runtime/browser/geolocation/tizen/location_provider_tizen.cc',
             'runtime/browser/geolocation/tizen/location_provider_tizen.h',

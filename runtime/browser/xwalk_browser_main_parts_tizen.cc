@@ -15,8 +15,8 @@
 
 #include "content/browser/device_orientation/device_inertial_sensor_service.h"
 #include "xwalk/application/browser/installer/tizen/package_installer.h"
-#include "xwalk/sysapps/device_capabilities/device_capabilities_extension.h"
 #include "xwalk/tizen/mobile/sensor/tizen_data_fetcher_shared_memory.h"
+#include "xwalk/sysapps/device_capabilities_new/device_capabilities_extension.h"
 
 namespace xwalk {
 
@@ -58,7 +58,7 @@ XWalkBrowserMainPartsTizen::RegisterInternalExtensionsInExtensionThreadServer(
     extensions::XWalkExtensionServer* server) {
   CHECK(server);
   server->RegisterExtension(scoped_ptr<extensions::XWalkExtension>(
-      new sysapps::DeviceCapabilitiesExtension(runtime_registry_.get())));
+      new sysapps::DeviceCapabilitiesExtension()));
   server->RegisterExtension(scoped_ptr<extensions::XWalkExtension>(
       new sysapps::RawSocketExtension()));
 }

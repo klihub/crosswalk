@@ -157,16 +157,6 @@ public class XWalkExtensionManager implements XWalkExtensionContext {
             }
         }
 
-        {
-            String jsApiContent = "";
-            try {
-                jsApiContent = getAssetsFileContent(mContext.getAssets(),
-                                                    DeviceCapabilities.JS_API_PATH);
-                new DeviceCapabilities(jsApiContent, this);
-            } catch(IOException e) {
-                Log.e(TAG, "Failed to read JS API file: " + DeviceCapabilities.JS_API_PATH);
-            }
-        }
     }
 
     private void loadExternalExtensions() {

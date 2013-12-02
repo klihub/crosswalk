@@ -33,6 +33,7 @@
 #include "xwalk/runtime/browser/runtime_context.h"
 #include "xwalk/runtime/browser/runtime_registry.h"
 #include "xwalk/runtime/extension/runtime_extension.h"
+#include "xwalk/sysapps/device_capabilities_new/device_capabilities_extension.h"
 #include "xwalk/sysapps/raw_socket/raw_socket_extension.h"
 
 namespace {
@@ -150,6 +151,8 @@ XWalkBrowserMainPartsAndroid::RegisterInternalExtensionsInExtensionThreadServer(
   for (; it != extensions_.end(); ++it)
     server->RegisterExtension(scoped_ptr<XWalkExtension>(*it));
 
+  server->RegisterExtension(scoped_ptr<XWalkExtension>(
+      new sysapps::DeviceCapabilitiesExtension()));
   server->RegisterExtension(scoped_ptr<XWalkExtension>(
       new sysapps::RawSocketExtension()));
 }
