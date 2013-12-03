@@ -16,6 +16,8 @@
     'device_capabilities_new/device_capabilities_api.js',
     'device_capabilities_new/device_capabilities_extension.cc',
     'device_capabilities_new/device_capabilities_extension.h',
+    'device_capabilities_new/device_capabilities_object.cc',
+    'device_capabilities_new/device_capabilities_object.h',
     'raw_socket/raw_socket.idl',
     'raw_socket/raw_socket_api.js',
     'raw_socket/raw_socket_extension.cc',
