@@ -7,6 +7,7 @@
 #include <string>
 
 #include "xwalk/sysapps/device_capabilities_new/cpu_info_provider.h"
+#include "xwalk/sysapps/device_capabilities_new/display_info_provider.h"
 #include "xwalk/sysapps/device_capabilities_new/memory_info_provider.h"
 #include "xwalk/sysapps/device_capabilities_new/storage_info_provider.h"
 
@@ -18,6 +19,9 @@ using namespace jsapi::device_capabilities;
 DeviceCapabilitiesObject::DeviceCapabilitiesObject() {
   handler_.Register("getCPUInfo",
                     base::Bind(&DeviceCapabilitiesObject::OnGetCPUInfo,
+                               base::Unretained(this)));
+  handler_.Register("getDisplayInfo",
+                    base::Bind(&DeviceCapabilitiesObject::OnGetDisplayInfo,
                                base::Unretained(this)));
   handler_.Register("getMemoryInfo",
                     base::Bind(&DeviceCapabilitiesObject::OnGetMemoryInfo,
@@ -60,6 +64,13 @@ void DeviceCapabilitiesObject::OnGetCPUInfo(
     scoped_ptr<XWalkExtensionFunctionInfo> info) {
   scoped_ptr<SystemCPU> cpu_info(CPUInfoProvider::GetInstance()->cpu_info());
   info->PostResult(GetCPUInfo::Results::Create(*cpu_info, std::string()));
+}
+
+void DeviceCapabilitiesObject::OnGetDisplayInfo(
+    scoped_ptr<XWalkExtensionFunctionInfo> info) {
+  scoped_ptr<SystemDisplay> display_info(DisplayInfoProvider::display_info());
+  info->PostResult(GetDisplayInfo::Results::Create(*display_info,
+                                                   std::string()));
 }
 
 void DeviceCapabilitiesObject::OnGetMemoryInfo(

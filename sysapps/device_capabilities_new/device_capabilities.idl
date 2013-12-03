@@ -10,6 +10,23 @@ namespace device_capabilities {
     double load;
   };
 
+  dictionary DisplayUnit {
+    DOMString id;
+    DOMString name;
+    boolean isPrimary;
+    boolean isInternal;
+    long dpiX;
+    long dpiY;
+    long width;
+    long height;
+    long availWidth;
+    long availHeight;
+  };
+
+  dictionary SystemDisplay {
+    DisplayUnit[] displays;
+  };
+
   dictionary SystemMemory {
     // If we use long here, it will overflow.
     double capacity;
@@ -35,11 +52,13 @@ namespace device_capabilities {
   };
 
   callback SystemCPUPromise = void (SystemCPU info, DOMString error);
+  callback SystemDisplayPromise = void (SystemDisplay info, DOMString error);
   callback SystemStoragePromise = void (SystemStorage info, DOMString error);
   callback SystemMemoryPromise = void (SystemMemory info, DOMString error);
 
   interface Functions {
     static void getCPUInfo(SystemCPUPromise promise);
+    static void getDisplayInfo(SystemDisplayPromise promise);
     static void getMemoryInfo(SystemMemoryPromise promise);
     static void getStorageInfo(SystemStoragePromise promise);
 

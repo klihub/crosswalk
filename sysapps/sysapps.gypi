@@ -18,6 +18,8 @@
     'device_capabilities_new/device_capabilities_extension.h',
     'device_capabilities_new/device_capabilities_object.cc',
     'device_capabilities_new/device_capabilities_object.h',
+    'device_capabilities_new/display_info_provider.cc',
+    'device_capabilities_new/display_info_provider.h',
     'device_capabilities_new/memory_info_provider.cc',
     'device_capabilities_new/memory_info_provider.h',
     'device_capabilities_new/storage_info_provider.cc',
