@@ -34,16 +34,44 @@ DeviceCapabilitiesObject::DeviceCapabilitiesObject() {
 DeviceCapabilitiesObject::~DeviceCapabilitiesObject() {
   if (StorageInfoProvider::GetInstance()->HasObserver(this))
     StorageInfoProvider::GetInstance()->RemoveObserver(this);
+
+  if (DisplayInfoProvider::GetInstance()->HasObserver(this))
+    DisplayInfoProvider::GetInstance()->RemoveObserver(this);
 }
 
 void DeviceCapabilitiesObject::StartEvent(const std::string& type) {
-  if (!StorageInfoProvider::GetInstance()->HasObserver(this))
-    StorageInfoProvider::GetInstance()->AddObserver(this);
+  if (type == "storageattach" || type == "storagedetach") {
+    if (!StorageInfoProvider::GetInstance()->HasObserver(this))
+      StorageInfoProvider::GetInstance()->AddObserver(this);
+  } else if (type == "displayconnect" || type == "displaydisconnect") {
+    if (!DisplayInfoProvider::GetInstance()->HasObserver(this))
+      DisplayInfoProvider::GetInstance()->AddObserver(this);
+  }
 }
 
 void DeviceCapabilitiesObject::StopEvent(const std::string& type) {
-  if (!IsEventActive("storageattach") && !IsEventActive("storagedetach"))
-    StorageInfoProvider::GetInstance()->RemoveObserver(this);
+  if (type == "storageattach" || type == "storagedetach") {
+    if (!IsEventActive("storageattach") && !IsEventActive("storagedetach"))
+      StorageInfoProvider::GetInstance()->RemoveObserver(this);
+  } else if (type == "displayconnect" || type == "displaydisconnect") {
+    if (!IsEventActive("displayconnect") && !IsEventActive("displaydisconnect"))
+      DisplayInfoProvider::GetInstance()->RemoveObserver(this);
+  }
+}
+
+void DeviceCapabilitiesObject::OnDisplayConnected(const DisplayUnit& display) {
+  scoped_ptr<base::ListValue> eventData(new base::ListValue);
+  eventData->Append(display.ToValue().release());
+
+  DispatchEvent("displayconnect", eventData.Pass());
+}
+
+void DeviceCapabilitiesObject::OnDisplayDisconnected(
+    const DisplayUnit& display) {
+  scoped_ptr<base::ListValue> eventData(new base::ListValue);
+  eventData->Append(display.ToValue().release());
+
+  DispatchEvent("displaydisconnect", eventData.Pass());
 }
 
 void DeviceCapabilitiesObject::OnStorageAttached(const StorageUnit& storage) {

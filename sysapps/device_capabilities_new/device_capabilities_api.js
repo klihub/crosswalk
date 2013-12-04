@@ -20,6 +20,8 @@ var DeviceCapabilities = function() {
 
   internal.postMessage("deviceCapabilitiesConstructor", [this._id]);
 
+  this._addEvent("displayconnect");
+  this._addEvent("displaydisconnect");
   this._addEvent("storageattach");
   this._addEvent("storagedetach");
 

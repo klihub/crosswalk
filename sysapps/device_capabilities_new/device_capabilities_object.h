@@ -7,12 +7,14 @@
 
 #include <string>
 #include "xwalk/sysapps/common/event_target.h"
+#include "xwalk/sysapps/device_capabilities_new/display_info_provider.h"
 #include "xwalk/sysapps/device_capabilities_new/storage_info_provider.h"
 
 namespace xwalk {
 namespace sysapps {
 
 class DeviceCapabilitiesObject : public EventTarget,
+                                 public DisplayInfoProvider::Observer,
                                  public StorageInfoProvider::Observer {
  public:
   DeviceCapabilitiesObject();
@@ -21,6 +23,10 @@ class DeviceCapabilitiesObject : public EventTarget,
   // EventTarget implementation.
   virtual void StartEvent(const std::string& type) OVERRIDE;
   virtual void StopEvent(const std::string& type) OVERRIDE;
+
+  // DisplayInfoProvider::Observer implementation.
+  virtual void OnDisplayConnected(const DisplayUnit& display) OVERRIDE;
+  virtual void OnDisplayDisconnected(const DisplayUnit& display) OVERRIDE;
 
   // StorageInfoProvider::Observer implementation.
   virtual void OnStorageAttached(const StorageUnit& storage) OVERRIDE;
