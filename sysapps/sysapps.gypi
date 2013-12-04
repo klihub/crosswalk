@@ -20,6 +20,7 @@
     'device_capabilities_new/device_capabilities_object.h',
     'device_capabilities_new/display_info_provider.cc',
     'device_capabilities_new/display_info_provider.h',
+    'device_capabilities_new/display_info_provider_android.cc',
     'device_capabilities_new/memory_info_provider.cc',
     'device_capabilities_new/memory_info_provider.h',
     'device_capabilities_new/storage_info_provider.cc',
