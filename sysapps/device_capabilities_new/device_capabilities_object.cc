@@ -5,7 +5,7 @@
 #include "xwalk/sysapps/device_capabilities_new/device_capabilities_object.h"
 
 #include <string>
-
+#include "xwalk/sysapps/device_capabilities_new/av_codecs_provider.h"
 #include "xwalk/sysapps/device_capabilities_new/cpu_info_provider.h"
 #include "xwalk/sysapps/device_capabilities_new/display_info_provider.h"
 #include "xwalk/sysapps/device_capabilities_new/memory_info_provider.h"
@@ -17,6 +17,9 @@ namespace sysapps {
 using namespace jsapi::device_capabilities;
 
 DeviceCapabilitiesObject::DeviceCapabilitiesObject() {
+  handler_.Register("getAVCodecs",
+                    base::Bind(&DeviceCapabilitiesObject::OnGetAVCodecs,
+                               base::Unretained(this)));
   handler_.Register("getCPUInfo",
                     base::Bind(&DeviceCapabilitiesObject::OnGetCPUInfo,
                                base::Unretained(this)));
@@ -86,6 +89,13 @@ void DeviceCapabilitiesObject::OnStorageDetached(const StorageUnit& storage) {
   eventData->Append(storage.ToValue().release());
 
   DispatchEvent("storagedetach", eventData.Pass());
+}
+
+void DeviceCapabilitiesObject::OnGetAVCodecs(
+    scoped_ptr<XWalkExtensionFunctionInfo> info) {
+  scoped_ptr<SystemAVCodecs> av_codecs(
+      AVCodecsProvider::GetInstance()->av_codecs());
+  info->PostResult(GetAVCodecs::Results::Create(*av_codecs, std::string()));
 }
 
 void DeviceCapabilitiesObject::OnGetCPUInfo(

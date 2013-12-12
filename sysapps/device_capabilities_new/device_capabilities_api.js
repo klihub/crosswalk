@@ -25,6 +25,7 @@ var DeviceCapabilities = function() {
   this._addEvent("storageattach");
   this._addEvent("storagedetach");
 
+  this._addMethodWithPromise("getAVCodecs", new Promise());
   this._addMethodWithPromise("getCPUInfo", new Promise());
   this._addMethodWithPromise("getDisplayInfo", new Promise());
   this._addMethodWithPromise("getMemoryInfo", new Promise());

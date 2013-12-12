@@ -33,6 +33,7 @@ class DeviceCapabilitiesObject : public EventTarget,
   virtual void OnStorageDetached(const StorageUnit& storage) OVERRIDE;
 
  private:
+  void OnGetAVCodecs(scoped_ptr<XWalkExtensionFunctionInfo> info);
   void OnGetCPUInfo(scoped_ptr<XWalkExtensionFunctionInfo> info);
   void OnGetDisplayInfo(scoped_ptr<XWalkExtensionFunctionInfo> info);
   void OnGetMemoryInfo(scoped_ptr<XWalkExtensionFunctionInfo> info);
