@@ -10,6 +10,21 @@
       }
 
       var api = xwalk.experimental.system;
+      api.getAVCodecs().then(
+        function(info) {
+          log("--- getAVCodecs ---");
+          for (var i = 0; i < info.audioCodecs.length; ++i) {
+            log("AudioCodec: " + info.audioCodecs[i].format);
+          }
+          for (var i = 0; i < info.videoCodecs.length; ++i) {
+            log("VideoCodec: " + info.videoCodecs[i].format + ", hwAccel: " + info.videoCodecs[i].hwAccel + ", encode: " + info.videoCodecs[i].encode);
+          }
+        },
+        function(error) {
+          log(error);
+        }
+      );
+
       api.getCPUInfo().then(
         function(info) {
           log("--- getCPUInfo ---");
