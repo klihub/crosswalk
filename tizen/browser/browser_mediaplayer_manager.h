@@ -11,8 +11,12 @@
 #include "content/public/browser/web_contents_observer.h"
 #include "url/gurl.h"
 #include "xwalk/tizen/browser/audio_session_manager.h"
+#include "xwalk/tizen/browser/murphy_resource_manager.h"
+#include "xwalk/tizen/browser/murphy_resource.h"
 
 namespace tizen {
+
+typedef int MediaPlayerID;
 
 // This class manages all AudioSessionManager objects in the browser
 // process. It receives control operations from the render process, and
@@ -38,6 +42,9 @@ class CONTENT_EXPORT BrowserMediaPlayerManager
   ASM_cb_result_t AudioSessionEventPlay(
       ASM_event_sources_t eventSource, MediaPlayerID player_id);
 
+  void MurphyResourceManagerNotify(MurphyConnectionEvent evt);
+  void MurphyResourceNotify(MurphyResourceState evt);
+
  protected:
   explicit BrowserMediaPlayerManager(content::RenderViewHost* render_view_host);
 
@@ -54,6 +61,10 @@ class CONTENT_EXPORT BrowserMediaPlayerManager
 
   // Removes the audio session manager of given |player_id|.
   void RemoveAudioSessionManager(MediaPlayerID player_id);
+
+  scoped_ptr<MurphyResourceManager> m_resource_manager_;
+  scoped_ptr<MurphyResource> m_resource_;
+  //MurphyResourceState m_prev_state;
 
   ScopedVector<AudioSessionManager> audio_session_managers_;
 

@@ -16,9 +16,73 @@ BrowserMediaPlayerManager::BrowserMediaPlayerManager(
     content::RenderViewHost* render_view_host)
     : WebContentsObserver(content::WebContents::FromRenderViewHost(
           render_view_host)) {
+    m_resource_manager_.reset(new MurphyResourceManager(this));
+
+    if (m_resource_manager_ && !m_resource_manager_->isConnected()) {
+      if (m_resource_manager_->connectToMurphy()) {
+        //murphy_resource_manager->registerObserver(this);
+        /* Murphy was just connected */
+        m_resource_.reset(new MurphyResource(this, m_resource_manager_.get()));
+        /*m_prev_state = MURPHY_RESOURCE_PENDING;
+          m_resource_->registerObserver(this);*/
+      }
+    }
 }
 
-BrowserMediaPlayerManager::~BrowserMediaPlayerManager() {}
+BrowserMediaPlayerManager::~BrowserMediaPlayerManager() {
+   /* if (m_resource_) {
+        m_resource_->releaseResource();
+        m_resource_->unregisterObserver(this);
+        delete m_resource_;
+        m_resource_ = NULL;
+    }
+    if (murphy_resource_manager) {
+        // murphy_resource_manager->disconnectFromMurphy();
+        murphy_resource_manager->unregisterObserver(this);
+        delete murphy_resource_manager;
+        murphy_resource_manager = NULL;
+    }*/
+}
+
+
+#if 0
+void MediaPlayerPrivateGStreamer::murphyNotify(MurphyConnectionEvent evt)
+{
+    // received a connection status event from Murphy
+    switch (evt) {
+        case MURPHY_CONNECTED:
+            // FIXME: check other possible reasons for delaying or use a different variable
+            m_delayingLoad = false;
+            this->commitLoad();
+            break;
+        case MURPHY_DISCONNECTED:
+            break;
+    }
+}
+
+void MediaPlayerPrivateGStreamer::murphyResourceNotify(MurphyResourceState evt)
+{
+    // received a resource event from Murphy
+    switch (evt) {
+        case MURPHY_RESOURCE_LOST:
+            // TODO: gray out play button if controls
+            if (m_prev_state == MURPHY_RESOURCE_ACQUIRED)
+                this->pause();
+            break;
+        case MURPHY_RESOURCE_AVAILABLE:
+            // TODO: change play button state to indicate paused state
+            if (m_prev_state == MURPHY_RESOURCE_ACQUIRED)
+                this->pause();
+            break;
+        case MURPHY_RESOURCE_PENDING:
+            break;
+        case MURPHY_RESOURCE_ACQUIRED:
+            break;
+    }
+
+    m_prev_state = evt;
+}
+#endif
 
 BrowserMediaPlayerManager* BrowserMediaPlayerManager::Create(
     content::RenderViewHost* render_view_host) {
